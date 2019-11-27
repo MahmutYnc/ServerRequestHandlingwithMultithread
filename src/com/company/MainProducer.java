@@ -15,7 +15,6 @@ public class MainProducer extends Thread {
     public void run() {
         System.out.println(Thread.currentThread().getName());
 
-
     }
 
     public int reqReturner() {
