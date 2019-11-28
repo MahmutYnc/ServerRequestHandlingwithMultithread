@@ -13,8 +13,8 @@ class MotherThread extends Thread {
     public int req;
     public int res;
 
-    public static final int requestTime = 300;
-    public static final int responseTime = 200;
+    public static final int requestTime = 200;
+    public static final int responseTime = 300;
     public ArrayList<SubThread> subList = new ArrayList<SubThread>();
 
     SubThreadCreator stc = new SubThreadCreator(this);
@@ -33,7 +33,7 @@ class MotherThread extends Thread {
 
     @Override
     public void run() {
-        data.deger = 9000;
+        data.deger = 0;
 
         while (true) {
 
@@ -41,11 +41,13 @@ class MotherThread extends Thread {
             res = (int) (Math.random() * 50);
 
             //Producer part
-            if (data.deger + req <= mainCapacity) {
-                data.deger = data.deger + req;
-            }else if(data.deger + req > mainCapacity) {
-                data.deger = mainCapacity;
-            }
+
+                if (data.deger + req <= mainCapacity) {
+                    data.deger = data.deger + req;
+                }else if(data.deger + req > mainCapacity) {
+                    data.deger = mainCapacity;
+                }
+
 
             System.out.println("main'e gelen istek : " + req + "    maindeki istek sayısı : " + data.deger + "\n");
             try {
@@ -59,11 +61,14 @@ class MotherThread extends Thread {
 
 
             //consumer part
-            if(data.deger - res <= 0) {
-                continue;
-            }else {
-                data.deger -= res;
-            }
+
+                if(data.deger - res <= 0) {
+                    continue;
+                }else {
+                    data.deger -= res;
+                }
+
+
 
             System.out.println("main cevap : " + res + "         kalan istek : " + data.deger +"\n");
 
@@ -74,14 +79,16 @@ class MotherThread extends Thread {
             }
 
 
-            if(getRequest(data.deger) <= data.deger) {
-                data.deger -= getRequest(data.deger);
-            } else if(getRequest(data.deger) > data .deger &&data.deger!=0){
-                getRequest(data.deger);
-                data.deger = 0;
-            } else if (data.deger == 0){
-                getRequest(0);
-            }
+                if(getRequest(data.deger) <= data.deger) {
+                    data.deger -= getRequest(data.deger);
+                } else if(getRequest(data.deger) > data .deger &&data.deger!=0){
+                    getRequest(data.deger);
+                    data.deger = 0;
+                } else if (data.deger == 0){
+                    getRequest(0);
+                }
+
+
 
         }
 

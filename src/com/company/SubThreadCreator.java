@@ -6,14 +6,15 @@ public class SubThreadCreator extends Thread {
     public SubThreadCreator(MotherThread motherThread) {
         this.motherThread = motherThread;
     }
+
     public void run() {
         while (true) {
             for (int i = 0; i < motherThread.subList.size(); i++) {
                 SubThread currentThread = motherThread.subList.get(i);
                 System.out.println("--------------   :  " + currentThread.currentReq);
-                if (currentThread.currentReq > 350) {
+                if (currentThread.currentReq > 3500) {
                     SubThread newer = new SubThread(motherThread);
-                    newer.currentReq = 175;
+                    newer.currentReq = (currentThread.currentReq / 2);
                     System.out.println("yeni thread eklenmeliydi");
                     currentThread.currentReq = newer.currentReq;
                     motherThread.subList.add(newer);
@@ -21,20 +22,22 @@ public class SubThreadCreator extends Thread {
                 }
 
                 for (int j = 0; j < motherThread.subList.size(); j++) {
-                    if (motherThread.subList.get(i).isAlive()==false){
+                    if (motherThread.subList.get(i).isAlive() == false) {
                         motherThread.subList.get(i).start();
                     }
                 }
 
                 System.out.println(motherThread.subList.size());
 
-                if(currentThread.data.deger == 0 && motherThread.subList.size() > 2) {
+                if (currentThread.data.deger == 0 && motherThread.subList.size() > 2) {
                     //burada thread silme işlemi yapılacak
+                    currentThread.shutterDown();
+                    motherThread.subList.remove(currentThread);
                 }
             }
             try {
-                Thread.sleep(300);
-            } catch(Exception e) {
+                Thread.sleep(100);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
