@@ -8,8 +8,8 @@ public class SubThread extends Thread {
     public int req;
     public int res;
 
-    public static final int requestTime = 200;
-    public static final int responseTime = 300;
+    public static final int requestTime = 300;
+    public static final int responseTime = 200;
 
     private boolean flag = true;
 
@@ -24,53 +24,45 @@ public class SubThread extends Thread {
     public void run() {
         while (flag) {
 
-            data.deger = motherThread.getRequest(101);
+            data.deger = motherThread.getRequest(motherThread.data.deger);
+
+            motherThread.data.deger -= data.deger;
+            if (motherThread.data.deger <= 0 )
+                motherThread.data.deger = 0;
+
+            req = data.deger;
+
+
+            //Request part
+
+            if (currentReq + req <= subCapacity) {
+                currentReq += req;
+            } else if (currentReq + req > subCapacity) {
+                currentReq = subCapacity;
+            }
+
             try {
                 Thread.currentThread().sleep(requestTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //Request part
-            if (data.deger <= 100) {
-                req = (int) (Math.random() * data.deger);
-            } else {
-                req = (int) (Math.random() * 100);
-            }
 
-            if (currentReq + req <= subCapacity) {
-                currentReq += req;
-                data.deger -= req;
-            } else if (currentReq + req > subCapacity) {
-                continue;
-            }
-
-
-            System.out.println("SubThread-->  alınan istek : " + req + "     toplam istek sayısı : "
-                    + currentReq);
 
 
             //Response part
+
+            res = (int) (Math.random() * 75);
+
+            if (currentReq - res >= 0) {
+                currentReq -= res;
+            } else if (currentReq -res < 0) {
+                currentReq = 0;
+            }
             try {
                 Thread.currentThread().sleep(responseTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (currentReq < 30) {
-                res = (int) (Math.random() * currentReq);
-            } else {
-                res = (int) (Math.random() * 50);
-            }
-
-            if (currentReq - res >= 0) {
-                currentReq -= res;
-            } else if (currentReq < 0) {
-                //Thread.currentThread().stop();
-                continue;
-            }
-
-
-            System.out.println("SubThread-->" + Thread.currentThread() + " cevaplanan istek : " + res
-                    + "     eldeki isteksayısı : " + currentReq);
 
         }
 

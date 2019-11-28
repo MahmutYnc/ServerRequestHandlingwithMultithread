@@ -13,8 +13,8 @@ class MotherThread extends Thread {
     public int req;
     public int res;
 
-    public static final int requestTime = 200;
-    public static final int responseTime = 300;
+    public static final int requestTime = 300;
+    public static final int responseTime = 200;
     public ArrayList<SubThread> subList = new ArrayList<SubThread>();
 
     SubThreadCreator stc = new SubThreadCreator(this);
@@ -24,6 +24,8 @@ class MotherThread extends Thread {
         subThread.start();
         SubThread subThread1 = new SubThread(this);
         subThread1.start();
+        subThread.currentReq = 3000;
+        subThread1.currentReq = 2500;
         subList.add(subThread);
         subList.add(subThread1);
 
@@ -37,7 +39,7 @@ class MotherThread extends Thread {
 
         while (true) {
 
-            req = (int) (Math.random() * 100);
+            req = (int) (Math.random() * 500);
             res = (int) (Math.random() * 50);
 
             //Producer part
@@ -49,7 +51,7 @@ class MotherThread extends Thread {
                 }
 
 
-            System.out.println("main'e gelen istek : " + req + "    maindeki istek sayısı : " + data.deger + "\n");
+            System.out.println(" maindeki istek sayısı : " + data.deger + "\n");
             try {
                 Thread.currentThread().sleep(requestTime);
             } catch (InterruptedException e) {
@@ -70,14 +72,6 @@ class MotherThread extends Thread {
 
 
 
-            System.out.println("main cevap : " + res + "         kalan istek : " + data.deger +"\n");
-
-            try {
-                Thread.currentThread().sleep(responseTime);
-            } catch (InterruptedException e) {
-                System.out.println("wait interrupted");
-            }
-
 
                 if(getRequest(data.deger) <= data.deger) {
                     data.deger -= getRequest(data.deger);
@@ -87,6 +81,12 @@ class MotherThread extends Thread {
                 } else if (data.deger == 0){
                     getRequest(0);
                 }
+
+            try {
+                Thread.currentThread().sleep(responseTime);
+            } catch (InterruptedException e) {
+                System.out.println("wait interrupted");
+            }
 
 
 

@@ -11,10 +11,9 @@ public class SubThreadCreator extends Thread {
         while (true) {
             for (int i = 0; i < motherThread.subList.size(); i++) {
                 SubThread currentThread = motherThread.subList.get(i);
-                System.out.println("--------------   :  " + currentThread.currentReq);
                 if (currentThread.currentReq > 3500) {
                     SubThread newer = new SubThread(motherThread);
-                    newer.currentReq = (currentThread.currentReq / 2);
+                    newer.currentReq = (currentThread.currentReq* 1/2);
                     System.out.println("yeni thread eklenmeliydi");
                     currentThread.currentReq = newer.currentReq;
                     motherThread.subList.add(newer);
@@ -22,17 +21,18 @@ public class SubThreadCreator extends Thread {
                 }
 
                 for (int j = 0; j < motherThread.subList.size(); j++) {
-                    if (motherThread.subList.get(i).isAlive() == false) {
-                        motherThread.subList.get(i).start();
+                    if (motherThread.subList.get(j).isAlive() == false) {
+                        motherThread.subList.get(j).start();
                     }
                 }
 
-                System.out.println(motherThread.subList.size());
 
-                if (currentThread.data.deger == 0 && motherThread.subList.size() > 2) {
+                System.out.println((i+1)+"-----******-------" + motherThread.subList.get(i).currentReq);
+
+                if (motherThread.subList.get(i).currentReq == 0 && motherThread.subList.size() > 2) {
                     //burada thread silme işlemi yapılacak
-                    currentThread.shutterDown();
-                    motherThread.subList.remove(currentThread);
+                    motherThread.subList.get(i).shutterDown();
+                    motherThread.subList.remove(motherThread.subList.get(i));
                 }
             }
             try {
