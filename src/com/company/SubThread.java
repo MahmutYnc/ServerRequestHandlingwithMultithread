@@ -23,7 +23,7 @@ public class SubThread extends Thread {
     public void run() {
         while(true){
 
-            data.deger = motherThread.getRequest();
+            data.deger = motherThread.getRequest(101);
             try {
                 Thread.currentThread().sleep(requestTime);
             } catch (InterruptedException e) {
@@ -43,11 +43,17 @@ public class SubThread extends Thread {
                 continue;
             }
 
-            System.out.println("SubThread-->  alınan istek : " + req + "     toplam istek sayısı : " + currentReq);
+            System.out.println("SubThread-->  alınan istek : " + req + "     toplam istek sayısı : "
+                    + currentReq);
 
 
 
             //Response part
+            try {
+                Thread.currentThread().sleep(responseTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(currentReq < 50) {
                 res = (int)(Math.random()*currentReq);
             }else{
@@ -61,12 +67,9 @@ public class SubThread extends Thread {
                 continue;
             }
 
-            System.out.println("SubThread-->"+ Thread.currentThread()+" cevaplanan istek : " + res + "     eldeki isteksayısı : " + currentReq);
-            try {
-                Thread.currentThread().sleep(responseTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            System.out.println("SubThread-->"+ Thread.currentThread()+" cevaplanan istek : " + res
+                    + "     eldeki isteksayısı : " + currentReq);
+
         }
 
 

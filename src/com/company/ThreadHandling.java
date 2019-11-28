@@ -1,6 +1,8 @@
 package com.company;
 
 
+import java.util.ArrayList;
+
 class MotherThread extends Thread {
 
     public Request data = new Request();
@@ -11,25 +13,27 @@ class MotherThread extends Thread {
     public int req;
     public int res;
 
-    public static final int requestTime = 500;
+    public static final int requestTime = 300;
     public static final int responseTime = 200;
+    public ArrayList<SubThread> subList = new ArrayList<SubThread>();
+
+    SubThreadCreator stc = new SubThreadCreator(this);
 
     public MotherThread() {
         SubThread subThread = new SubThread(this);
         subThread.start();
+        SubThread subThread1 = new SubThread(this);
+        subThread1.start();
+        subList.add(subThread);
+        subList.add(subThread1);
+
+        stc.start();
     }
 
-    public int getCurrentReq() {
-        return currentReq;
-    }
-
-    public void setCurrentReq(int currentReq) {
-        this.currentReq = currentReq;
-    }
 
     @Override
     public void run() {
-        data.deger = 0;
+        data.deger = 9000;
 
         while (true) {
 
@@ -70,8 +74,13 @@ class MotherThread extends Thread {
             }
 
 
-            if(getRequest() <= data.deger) {
-                data.deger -= getRequest();
+            if(getRequest(data.deger) <= data.deger) {
+                data.deger -= getRequest(data.deger);
+            } else if(getRequest(data.deger) > data .deger &&data.deger!=0){
+                getRequest(data.deger);
+                data.deger = 0;
+            } else if (data.deger == 0){
+                getRequest(0);
             }
 
         }
@@ -79,21 +88,23 @@ class MotherThread extends Thread {
 
     }
 
-    public int getRequest() {
+    public int getRequest(int conditionalReq) {
+
         int getRequest = (int)(Math.random()*100);
-        return getRequest;
+
+        if(getRequest > conditionalReq) {
+            return conditionalReq;
+        }else {
+            return getRequest;
+        }
+
     }
+
 }
 
 
 public class ThreadHandling {
-    private static Request data;
 
-    public static void main(String[] args) {
-        MotherThread motherThread = new MotherThread();
-        motherThread.start();
-
-    }
 
 }
 
