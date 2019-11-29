@@ -1,8 +1,10 @@
 package com.company;
 
+import java.io.IOException;
+
 public class SubThreadCreator extends Thread {
     private MotherThread motherThread;
-
+    private ProgressBar pb ;
     public SubThreadCreator(MotherThread motherThread) {
         this.motherThread = motherThread;
     }
@@ -34,12 +36,51 @@ public class SubThreadCreator extends Thread {
                     motherThread.subList.get(i).shutterDown();
                     motherThread.subList.remove(motherThread.subList.get(i));
                 }
+
             }
+
+
+            try {
+                pb.loading("Calculating....");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+
             try {
                 Thread.sleep(100);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+}
+class ProgressBar {
+    private static boolean loading = true;
+    public static synchronized void loading(String msg) throws IOException, InterruptedException {
+        System.out.println(msg);
+        Thread th = new Thread() {
+            int i= 10;
+            @Override
+            public void run() {
+                try {
+                    System.out.write("\r|".getBytes());
+                    while(loading) {
+                        System.out.write("-".getBytes());
+                        Thread.sleep(500);
+                    }
+                    System.out.write("| Done \r\n".getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        th.start();
     }
 }
