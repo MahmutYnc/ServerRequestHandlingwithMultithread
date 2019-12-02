@@ -1,0 +1,11 @@
+package com.company;
+
+public class Runner {
+
+    public static void main(String[] args) {
+        MotherThread motherThread = new MotherThread();
+        motherThread.start();
+
+    }
+
+}
