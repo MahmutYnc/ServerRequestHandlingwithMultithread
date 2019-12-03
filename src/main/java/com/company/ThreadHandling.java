@@ -20,23 +20,6 @@ class MotherThread extends Thread {
     SubThreadCreator stc = new SubThreadCreator(this);
 
     public MotherThread() {
-        try (ProgressBar pb = new ProgressBar("Test", 100)) { // name, initial max
-            // Use ProgressBar("Test", 100, ProgressBarStyle.ASCII) if you want ASCII output style
-
-                pb.step(); // step by 1
-                pb.stepBy(0); // step by n
-
-                pb.stepTo(10); // step directly to n
-
-                pb.maxHint(100);
-                // reset the max of this progress bar as n. This may be useful when the program
-                // gets new information about the current progress.
-                // Can set n to be less than zero: this means that this progress bar would become
-                // indefinite: the max would be unknown.
-
-                pb.setExtraMessage("Reading..."); // Set extra message to display at the end of the bar
-
-        } // progress bar sto
         SubThread subThread = new SubThread(this);
         subThread.start();
         SubThread subThread1 = new SubThread(this);
