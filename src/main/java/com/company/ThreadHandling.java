@@ -33,8 +33,8 @@ class MotherThread extends Thread {
         subThread1.start();
 
 
-        subThread.currentReq = 3000;
-        subThread1.currentReq = 2500;
+        subThread.currentReq = 0;
+        subThread1.currentReq = 0;
 
 
         subList.add(subThread);

@@ -1,6 +1,7 @@
 package com.company;
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +13,7 @@ public class ProgressBar  {
 
     public static JFrame frame;
     public static MotherThread motherThread;
+    public ArrayList<JProgressBar> progressBars = new ArrayList<>();
     /**
      * Creates new form ProgressBar
      */
@@ -194,18 +196,22 @@ public class ProgressBar  {
                 progress.setValue(motherThread.subList.get(0).currentReq);
                 progress2.setValue(motherThread.subList.get(1).currentReq);
 
+                progressBars.add(progress);
+                progressBars.add(progress2);
                 //System.out.println(motherThread.progressBarArrayList.size());
                 for(int i = 0; i < motherThread.subList.size(); i++) {
                     motherThread.progressBarArrayList.get(i).setValue(motherThread.subList.get(i).currentReq);
                     frame.repaint();
                 }
 
+
+
                 if (motherThread.progressBarArrayList.size() >= 3) {
                     progress3.setVisible(true);
                     progress3.setValue(motherThread.subList.get(2).currentReq);
                     if (motherThread.subList.get(2).currentReq <= 20) {
                         frame.remove(progress3);
-                        motherThread.progressBarArrayList.remove(2);
+                        progress3.setValue(0);
                     }
                 }
                 if (motherThread.progressBarArrayList.size() >= 4) {
@@ -213,7 +219,7 @@ public class ProgressBar  {
                     progress4.setValue(motherThread.subList.get(3).currentReq);
                     if (motherThread.subList.get(3).currentReq <= 20) {
                         frame.remove(progress4);
-                        motherThread.progressBarArrayList.remove(3);
+                        progress4.setValue(0);
                     }
                 }
 
@@ -222,7 +228,7 @@ public class ProgressBar  {
                     progress5.setValue(motherThread.subList.get(4).currentReq);
                     if (motherThread.subList.get(4).currentReq <= 20) {
                         frame.remove(progress5);
-                        motherThread.progressBarArrayList.remove(4);
+                        progress5.setValue(0);
                     }
                 }
 
@@ -231,7 +237,7 @@ public class ProgressBar  {
                     progress6.setValue(motherThread.subList.get(5).currentReq);
                     if (motherThread.subList.get(5).currentReq <= 20) {
                         frame.remove(progress6);
-                        motherThread.progressBarArrayList.remove(5);
+                        progress6.setValue(0);
                     }
                 }
 
@@ -240,7 +246,7 @@ public class ProgressBar  {
                     progress7.setValue(motherThread.subList.get(6).currentReq);
                     if (motherThread.subList.get(6).currentReq <= 20) {
                         frame.remove(progress7);
-                        motherThread.progressBarArrayList.remove(6);
+                        progress7.setValue(0);
                     }
                 }
 
@@ -249,7 +255,8 @@ public class ProgressBar  {
                     progress8.setValue(motherThread.subList.get(7).currentReq);
                     if (motherThread.subList.get(7).currentReq <= 20) {
                         frame.remove(progress8);
-                        motherThread.progressBarArrayList.remove(7);
+                        progress8.setValue(0);
+
                     }
                 }
 
@@ -258,7 +265,7 @@ public class ProgressBar  {
                     progress9.setValue(motherThread.subList.get(8).currentReq);
                     if (motherThread.subList.get(8).currentReq <= 20) {
                         frame.remove(progress9);
-                        motherThread.progressBarArrayList.remove(8);
+                        progress9.setValue(0);
                     }
                 }
 
