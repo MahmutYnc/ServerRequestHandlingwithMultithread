@@ -1,11 +1,14 @@
 package com.company;
 
 
+import javax.swing.*;
 import java.util.ArrayList;
+
 
 class MotherThread extends Thread {
 
     public Request data = new Request();
+    public ProgressBar progressBar = new ProgressBar(this);
 
     public static final int mainCapacity = 10000;
     public int currentReq = 0;
@@ -13,28 +16,52 @@ class MotherThread extends Thread {
     public int req;
     public int res;
 
+
+
     public static final int requestTime = 300;
     public static final int responseTime = 200;
-    public ArrayList<SubThread> subList = new ArrayList<SubThread>();
+    public ArrayList<SubThread> subList = new ArrayList<>();
+    public ArrayList<JProgressBar> progressBarArrayList = new ArrayList<>();
 
     SubThreadCreator stc = new SubThreadCreator(this);
 
     public MotherThread() {
+        data.deger = 0;
         SubThread subThread = new SubThread(this);
         subThread.start();
         SubThread subThread1 = new SubThread(this);
         subThread1.start();
+
+
         subThread.currentReq = 3000;
         subThread1.currentReq = 2500;
+
+
         subList.add(subThread);
         subList.add(subThread1);
 
+        JProgressBar bar = new JProgressBar();
+        bar.setMaximum(5000);
+        bar.setStringPainted(true);
+        bar.setBounds(47, 255, 200, 55);
+        progressBar.frame.getContentPane().add(bar);
+        progressBarArrayList.add(bar);
+
+        JProgressBar bar2 = new JProgressBar();
+        bar2.setMaximum(5000);
+        bar2.setStringPainted(true);
+        bar2.setBounds(47, 255, 200, 55);
+        progressBar.frame.getContentPane().add(bar2);
+        progressBarArrayList.add(bar2);
+
+
         stc.start();
+
     }
 
 
     @Override
-    public void run() {
+    public synchronized void run() {
         data.deger = 0;
 
         while (true) {

@@ -21,7 +21,7 @@ public class SubThread extends Thread {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         while (flag) {
 
             data.deger = motherThread.getRequest(motherThread.data.deger);
